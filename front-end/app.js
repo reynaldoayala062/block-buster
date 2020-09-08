@@ -206,11 +206,13 @@ document.addEventListener('DOMContentLoaded', () =>{
         if (timerId){
             clearInterval(timerId)
             timerId = null
+            startBtn.innerHTML = 'Resume'
         } else{
             draw()
             timerId = setInterval(moveDown, 500)
             nextRandom = Math.floor(Math.random()*theTetrominoes.length)
             displayShape()
+            startBtn.innerHTML = 'Pause'
         }
     })
 
