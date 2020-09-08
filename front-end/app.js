@@ -248,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () =>{
             timerId = setInterval(moveDown, gravity)
             nextRandom = Math.floor(Math.random()*theTetrominoes.length)
             displayShape()
+            startBtn.innerHTML = 'Pause'
         }
     })
 

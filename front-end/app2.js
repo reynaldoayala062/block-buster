@@ -16,6 +16,9 @@ const createUser = () => {
         postUser(e.target[0].value)
         const loginBox = document.querySelector(".login-box")
         loginBox.hidden = true
+        const gameScreen = document.querySelector('.game-screen')
+        gameScreen.hidden = false
+        
     })
 }
 
