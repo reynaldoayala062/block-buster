@@ -5,38 +5,41 @@ document.addEventListener('DOMContentLoaded', () =>{
     const linesDisplay = document.querySelector('#lines')
     const startBtn = document.querySelector('#start-button')
     const width = 10
+    let gravity = 1000
     let nextRandom = 0
     let timerId 
     let score = 0
     let lines = 0
     const colors =[
+        'teal',
+        'blue',
         'orange',
-        'red',
-        'purple',
+        'yellow',
         'green',
-        'blue'
+        'purple',
+        'red'
     ]
 
     // The Tetrominoes
-    const lTetromino = [
+    const iTetromino = [
+        [1, width+1, width*2+1, width*3+1],
+        [width, width+1, width+2, width+3],
+        [1, width+1, width*2+1, width*3+1],
+        [width, width+1, width+2, width+3]
+    ]
+
+    const jTetromino = [
         [1, width+1, width*2+1, 2],
         [width, width+1, width+2, width*2+2],
         [1, width+1, width*2+1, width*2],
         [width, width*2, width*2+1, width*2+2]
     ]
 
-    const zTetromino =[
-        [0, width, width+1, width*2+1],
-        [width+1, width+2, width*2, width*2+1],
-        [0, width, width+1, width*2+1],
-        [width+1, width+2, width*2, width*2+1]
-    ]
-    
-    const tTetromino = [
-        [1, width, width+1, width+2],
-        [1, width+1, width+2, width*2+1],
-        [width, width+1, width+2, width*2+1],
-        [1, width, width+1, width*2+1]
+    const lTetromino = [
+        [0, 1, width+1, width*2+1],
+        [2, width, width+1, width+2],
+        [1, width+1, width*2+1, width*2+2],
+        [width, width+1, width+2,width*2]
     ]
 
     const oTetromino = [
@@ -46,14 +49,28 @@ document.addEventListener('DOMContentLoaded', () =>{
         [0, 1, width, width+1]
     ]
 
-    const iTetromino = [
-        [1, width+1, width*2+1, width*3+1],
-        [width, width+1, width+2, width+3],
-        [1, width+1, width*2+1, width*3+1],
-        [width, width+1, width+2, width+3]
+    const sTetromino = [
+        [2, width+1, width+2, width*2+1],
+        [width, width+1, width*2+1, width*2+2],
+        [2, width+1, width+2, width*2+1],
+        [width, width+1, width*2+1, width*2+2]
     ]
 
-    const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
+    const tTetromino = [
+        [1, width, width+1, width+2],
+        [1, width+1, width+2, width*2+1],
+        [width, width+1, width+2, width*2+1],
+        [1, width, width+1, width*2+1]
+    ]
+
+    const zTetromino =[
+        [0, width, width+1, width*2+1],
+        [width+1, width+2, width*2, width*2+1],
+        [0, width, width+1, width*2+1],
+        [width+1, width+2, width*2, width*2+1]
+    ]
+
+    const theTetrominoes = [iTetromino, jTetromino, lTetromino, oTetromino, sTetromino, tTetromino, zTetromino]
 
     let currentPosition = 4
     let currentRotation = 0
@@ -78,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         })
     }
 
-    //assign functiosn to keyCodes
+    //assign functions to keyCodes
     function control(e) {
         if(e.keyCode === 37){
             moveLeft()
@@ -88,10 +105,24 @@ document.addEventListener('DOMContentLoaded', () =>{
             moveRight()
         } else if (e.keyCode === 40){
             moveDown()
+        } else if (e.keyDown === 40){
+            hardDrop()
         }
     }
-    document.addEventListener('keyup', control)
     
+    
+    function hardDrop(){
+        undraw()
+        if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            draw()
+            freeze()
+        } else {
+            currentPosition += width
+            draw()
+            hardDrop()
+        }
+        
+    }
     //move down function
     function moveDown() {
         undraw()
@@ -182,11 +213,13 @@ document.addEventListener('DOMContentLoaded', () =>{
 
     //the Tetrominos without rotations
     const upNextTetrominoes = [
-        [1, displayWidth+1, displayWidth*2+1, 2], //lTetromino
-        [0, displayWidth, displayWidth+1, displayWidth*2+1], //zTetromino
-        [1, displayWidth, displayWidth+1, displayWidth+2], //tTetromino
+        [1, displayWidth+1, displayWidth*2+1, displayWidth*3+1], //iTetromino
+        [1, displayWidth+1, displayWidth*2+1, 2], //jTetromino
+        [0, 1, displayWidth+1, displayWidth*2+1], //lTetromino
         [0, 1, displayWidth, displayWidth+1], //oTetromino
-        [1, displayWidth+1, displayWidth*2+1, displayWidth*3+1] //iTetromino
+        [2, displayWidth+1, displayWidth+2, displayWidth*2+1], //sTetromino
+        [1, displayWidth, displayWidth+1, displayWidth+2], //tTetromino
+        [0, displayWidth, displayWidth+1, displayWidth*2+1] //zTetromino
     ]
 
     //display the shape in the mini-grid
@@ -206,9 +239,13 @@ document.addEventListener('DOMContentLoaded', () =>{
         if (timerId){
             clearInterval(timerId)
             timerId = null
+            startBtn.innerHTML = 'Resume'
+            document.removeEventListener('keydown', control)
         } else{
+            startBtn.innerHTML = 'Pause'
+            document.addEventListener('keydown', control)
             draw()
-            timerId = setInterval(moveDown, 500)
+            timerId = setInterval(moveDown, gravity)
             nextRandom = Math.floor(Math.random()*theTetrominoes.length)
             displayShape()
         }
@@ -224,6 +261,10 @@ document.addEventListener('DOMContentLoaded', () =>{
                 scoreDisplay.innerHTML = score
                 lines += 1
                 linesDisplay.innerHTML = lines
+                // if(gravity > 200){
+                //     gravity -= 100
+                //     timerId = setInterval(moveDown, gravity)
+                // }
                 row.forEach(index => {
                     squares[index].classList.remove('taken')
                     squares[index].classList.remove('tetromino')
@@ -241,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
         scoreDisplay.innerHTML = 'Game Over'
         clearInterval(timerId)
+        document.removeEventListener('keydown', control)
         }
     }
 
