@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () =>{
     let score = 0
     let lines = 0
     const colors =[
+        // 'url(front-end/images/blue_block.png)',
+        // 'url(front-end/images/blue_block.png)',
+        // 'url(front-end/images/blue_block.png)',
+        // 'url(front-end/images/blue_block.png)',
+        // 'url(front-end/images/blue_block.png)',
+        // 'url(front-end/images/blue_block.png)',
+        // 'url(front-end/images/blue_block.png)'
         'teal',
         'blue',
         'orange',
@@ -18,6 +25,16 @@ document.addEventListener('DOMContentLoaded', () =>{
         'green',
         'purple',
         'red'
+    ]
+
+    const colorImages= [
+        'url(/Users/edgonzalez/Development/block-buster/front-end/images/lightblue.png)',
+        'url(/Users/edgonzalez/Development/block-buster/front-end/images/blue.png)',
+        'url(/Users/edgonzalez/Development/block-buster/front-end/images/orange.png)',
+        'url(/Users/edgonzalez/Development/block-buster/front-end/images/yellow.png)',
+        'url(/Users/edgonzalez/Development/block-buster/front-end/images/green.png)',
+        'url(/Users/edgonzalez/Development/block-buster/front-end/images/purple.png)',
+        'url(/Users/edgonzalez/Development/block-buster/front-end/images/red.png)'
     ]
 
     // The Tetrominoes
@@ -82,16 +99,18 @@ document.addEventListener('DOMContentLoaded', () =>{
     //draw the tetromino
     function draw() {
         current.forEach(index => {
-            squares[currentPosition + index].classList.add('tetromino')
-            squares[currentPosition + index].style.backgroundColor = colors[random]
+            squares[currentPosition + index].classList.add('block')
+            squares[currentPosition + index].style.backgroundImage = colorImages[random]
+            // squares[currentPosition + index].style.backgroundColor = colors[random]
         })
     }
 
     
     function undraw() {
         current.forEach(index => {
-            squares[currentPosition + index].classList.remove('tetromino')
-            squares[currentPosition + index].style.backgroundColor = ''
+            squares[currentPosition + index].classList.remove('block')
+            squares[currentPosition + index].style.backgroundImage = 'none'
+            // squares[currentPosition + index].style.backgroundColor = ''
         })
     }
 
@@ -225,12 +244,12 @@ document.addEventListener('DOMContentLoaded', () =>{
     //display the shape in the mini-grid
     function displayShape(){
         displaySquares.forEach(square =>{
-            square.classList.remove('tetromino')
-            square.style.backgroundColor = ''
+            square.classList.remove('block')
+            square.style.backgroundImage = 'none'
         })
         upNextTetrominoes[nextRandom].forEach( index => {
-            displaySquares[displayIndex + index].classList.add('tetromino')
-            displaySquares[displayIndex + index].style.backgroundColor = colors[nextRandom]
+            displaySquares[displayIndex + index].classList.add('block')
+            displaySquares[displayIndex + index].style.backgroundImage = colorImages[nextRandom]
         })
     }
 
@@ -268,8 +287,8 @@ document.addEventListener('DOMContentLoaded', () =>{
                 // }
                 row.forEach(index => {
                     squares[index].classList.remove('taken')
-                    squares[index].classList.remove('tetromino')
-                    squares[index].style.backgroundColor = ''
+                    squares[index].classList.remove('block')
+                    squares[index].style.backgroundImage = ''
                 })
                 const squaresRemoved = squares.splice(i, width)
                 squares = squaresRemoved.concat(squares)

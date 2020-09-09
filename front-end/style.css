@@ -61,9 +61,7 @@ p {
 
 }
 
-.tetromino {
-  background-color: blue;
-}
+
 
 .mini-grid{
   margin-left: 50px;
@@ -383,4 +381,43 @@ html {
     }
   }
 
+/* Images for the blocks */
 
+/* iTetromino */
+.block {
+  background-image: url(/Users/edgonzalez/Development/block-buster/front-end/images/lightblue.png);
+}
+
+/* jTetromino */
+.block2 {
+  background-image: url(/Users/edgonzalez/Development/block-buster/front-end/images/blue.png);
+}
+
+/* lTetromino */
+.block3 {
+  background-image: url(/Users/edgonzalez/Development/block-buster/front-end/images/orange.png);
+}
+
+/* oTetromino */
+.block4 {
+  background-image: url(/Users/edgonzalez/Development/block-buster/front-end/images/yellow.png);
+}
+
+/* sTetromino */
+.block5 {
+  background-image: url(/Users/edgonzalez/Development/block-buster/front-end/images/green.png);
+}
+
+/* tTetromino */
+.block6 {
+  background-image: url(/Users/edgonzalez/Development/block-buster/front-end/images/purple.png);
+}
+
+/* zTetromino */
+.block7 {
+  background-image: url(/Users/edgonzalez/Development/block-buster/front-end/images/red.png);
+}
+
+/* .tetromino {
+  background-image: url(/Users/edgonzalez/Development/block-buster/front-end/images/blue_block.png);
+} */
