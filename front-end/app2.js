@@ -1,6 +1,8 @@
 const userURL = 'http://localhost:3000/users'
 const hsURL = 'http://localhost:3000/high_scores'
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
     
     createUser()
@@ -8,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
 })
 
+// getting info to create user
 const createUser = () => { 
     
     const userForm = document.querySelector('#user-form')
@@ -23,6 +26,7 @@ const createUser = () => {
     })
 }
 
+// creating user
 const postUser = (username) => {
     fetch(userURL, {
         method: "POST",
@@ -36,6 +40,7 @@ const postUser = (username) => {
     })
 }
 
+// fetching current player to create highscore
 const renderUser = (score) => {
     fetch(userURL)
     .then(resp => resp.json())
@@ -45,9 +50,8 @@ const renderUser = (score) => {
     })
 }
 
-// high score 
-const postHighScore = (score, id) => {
-        
+// create high score with current player
+const postHighScore = (score, id) => { 
     fetch(hsURL, {
         method: "POST",
         headers: {
@@ -59,27 +63,33 @@ const postHighScore = (score, id) => {
             user_id: id
         })
     })
-
+    .then(resp => resp.json())
+    .then()
     renderHS()
 }
 
+// fetching top 3 scores in an array
 const renderHS = () => {
-
+    const ul = document.getElementById('hs-ul')
+    ul.innerHTML = ""
     fetch(hsURL)
     .then(resp => resp.json())
     .then(json => displayHSArray(json.sort((a,b) => b.score-a.score).slice(0,3)))
 }
 
+// rendering each score from the array
 const displayHSArray = (top3) => {
     top3.forEach( top => {
         displayHS(top)
     })
 }
 
+// displaying each score in a li
 const displayHS = (top) => {
-    console.log(top)
     const ul = document.getElementById('hs-ul')
     const li = document.createElement('li')
     li.innerHTML = `${top.user.name} - ${top.score} <br><br>`
     ul.append(li)
-}
+} 
+
+
