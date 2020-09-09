@@ -12,7 +12,6 @@ const createUser = () => {
     
     userForm.addEventListener('submit', (e) => {
         e.preventDefault()
-        console.log(e)
         postUser(e.target[0].value)
         const loginBox = document.querySelector(".login-box")
         loginBox.hidden = true
@@ -33,4 +32,10 @@ const postUser = (username) => {
             name: username
         })
     })
+}
+
+const renderUser = () => {
+    fetch(userURL)
+    .then(resp => resp.json())
+    .then(json => console.log(json))
 }

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () =>{
+    const hsURL = 'http://localhost:3000/high_scores'
     const grid = document.querySelector('.grid')
     let squares = Array.from(document.querySelectorAll('.grid div'))
     const scoreDisplay = document.querySelector('#score')
@@ -303,7 +304,26 @@ document.addEventListener('DOMContentLoaded', () =>{
         scoreDisplay.innerHTML = 'Game Over'
         clearInterval(timerId)
         document.removeEventListener('keydown', control)
+        
+        postHighScore()
         }
+    }
+
+    // high score 
+    function postHighScore() {
+        
+        fetch(hsURL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            body: JSON.stringify({
+                score: score,
+                user_id: 1
+            })
+        })
+    
     }
 
 })

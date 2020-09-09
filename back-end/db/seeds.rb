@@ -8,4 +8,4 @@
 
 User.create(name: "rey")
 
-HighScore.create(score: 1000, user: User.all.first)
+HighScore.create(score: 1000, user_id: 1)

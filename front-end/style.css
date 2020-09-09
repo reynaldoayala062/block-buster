@@ -10,7 +10,7 @@ h1 {
   text-align:center;
 }
 
-h3 {
+h3, p  {
   color: #03e9f4;
   font-size: 12px;
   text-decoration: none;
@@ -19,18 +19,6 @@ h3 {
   transition: .5s;
   margin-top: 40px;
   letter-spacing: 4px;
-}
-
-p {
-  color: #03e9f4;
-  font-size: 12px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: .5s;
-  margin-top: 40px;
-  letter-spacing: 4px;
-
 }
 
 .title {
@@ -42,15 +30,11 @@ p {
   display: flex;
 }
 
-.high-score {
-
-}
-
 .grid {
   width: 200px;
   height: 400px;
   margin-left: 50px;
-  background-color: silver;
+  background-color: #9fb620;
   display: flex;
   flex-wrap: wrap;
 }
@@ -69,7 +53,7 @@ p {
   height: 80px;
   display: flex;
   flex-wrap: wrap;
-  background-color: silver;
+  background-color: rgb(0, 0, 0);
 }
 
 .mini-grid div{
