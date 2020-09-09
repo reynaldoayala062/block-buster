@@ -11,31 +11,15 @@ document.addEventListener('DOMContentLoaded', () =>{
     let timerId 
     let score = 0
     let lines = 0
-    const colors =[
-        // 'url(front-end/images/blue_block.png)',
-        // 'url(front-end/images/blue_block.png)',
-        // 'url(front-end/images/blue_block.png)',
-        // 'url(front-end/images/blue_block.png)',
-        // 'url(front-end/images/blue_block.png)',
-        // 'url(front-end/images/blue_block.png)',
-        // 'url(front-end/images/blue_block.png)'
-        'teal',
-        'blue',
-        'orange',
-        'yellow',
-        'green',
-        'purple',
-        'red'
-    ]
 
     const colorImages= [
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/lightblue.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/blue.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/orange.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/yellow.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/green.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/purple.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/red.png)'
+        'url(../front-end/images/lightblue.png)',
+        'url(../front-end/images/blue.png)',
+        'url(../front-end/images/orange.png)',
+        'url(../front-end/images/yellow.png)',
+        'url(../front-end/images/green.png)',
+        'url(../front-end/images/purple.png)',
+        'url(../front-end/images/red.png)'
     ]
 
     // The Tetrominoes
@@ -325,5 +309,4 @@ document.addEventListener('DOMContentLoaded', () =>{
         })
     
     }
-
 })
