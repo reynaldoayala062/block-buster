@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () =>{
-    const hsURL = 'http://localhost:3000/high_scores'
     const grid = document.querySelector('.grid')
     let squares = Array.from(document.querySelectorAll('.grid div'))
     const scoreDisplay = document.querySelector('#score')
@@ -29,13 +28,13 @@ document.addEventListener('DOMContentLoaded', () =>{
     ]
 
     const colorImages= [
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/lightblue.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/blue.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/orange.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/yellow.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/green.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/purple.png)',
-        'url(/Users/edgonzalez/Development/block-buster/front-end/images/red.png)'
+        'url(/Users/reynaldoayala/Desktop/Flatiron/MOD_Projects/tetris-game/front-end/images/lightblue.png)',
+        'url(/Users/reynaldoayala/Desktop/Flatiron/MOD_Projects/tetris-game/front-end/images/blue.png)',
+        'url(/Users/reynaldoayala/Desktop/Flatiron/MOD_Projects/tetris-game/front-end/images/orange.png)',
+        'url(/Users/reynaldoayala/Desktop/Flatiron/MOD_Projects/tetris-game/front-end/images/yellow.png)',
+        'url(/Users/reynaldoayala/Desktop/Flatiron/MOD_Projects/tetris-game/front-end/images/green.png)',
+        'url(/Users/reynaldoayala/Desktop/Flatiron/MOD_Projects/tetris-game/front-end/images/purple.png)',
+        'url(/Users/reynaldoayala/Desktop/Flatiron/MOD_Projects/tetris-game/front-end/images/red.png)'
     ]
 
     // The Tetrominoes
@@ -305,25 +304,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         clearInterval(timerId)
         document.removeEventListener('keydown', control)
         
-        postHighScore()
+        renderUser(score)
         }
     }
-
-    // high score 
-    function postHighScore() {
-        
-        fetch(hsURL, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            },
-            body: JSON.stringify({
-                score: score,
-                user_id: 1
-            })
-        })
-    
-    }
-
 })
