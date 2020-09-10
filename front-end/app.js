@@ -12,6 +12,8 @@ const playGame = () => {
     const scoreDisplay = document.querySelector('#score')
     const linesDisplay = document.querySelector('#lines')
     const startBtn = document.querySelector('#start-button')
+    const music = document.querySelector("body > audio")
+    music.volume = 0.05;
     startBtn.innerHTML = 'Start'
     const width = 10
     let gravity = 1000
@@ -297,6 +299,7 @@ const playGame = () => {
     startBtn.addEventListener('click', () => {
         if (startBtn.innerHTML === 'Start'){
             startBtn.innerHTML = 'Pause'
+            music.play()
             document.addEventListener('keydown', control)
             loadNewPiece()
             timerId = setInterval(moveDown, gravity)
@@ -304,10 +307,12 @@ const playGame = () => {
             startBtn.innerHTML = 'Resume'
             clearInterval(timerId)
             timerId = null
+            music.pause()
             document.removeEventListener('keydown', control)
         } else if (startBtn.innerHTML === 'Resume'){
             startBtn.innerHTML = 'Pause'
             timerId = setInterval(moveDown, gravity)
+            music.play()
             document.addEventListener('keydown', control)
         } else if (startBtn.innerHTML === 'New Game'){
             playGame()

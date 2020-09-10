@@ -19,8 +19,7 @@ const createUser = () => {
         const loginBox = document.querySelector(".login-box")
         loginBox.hidden = true
         const gameScreen = document.querySelector('.game-screen')
-        gameScreen.hidden = false
-        
+        gameScreen.hidden = false    
     })
 }
 
@@ -92,3 +91,4 @@ const displayHS = (top) => {
     li.innerHTML = `${top.user.name} - ${top.score} <br>`
     ul.append(li)
 } 
+
