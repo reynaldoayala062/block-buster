@@ -4,16 +4,47 @@ document.addEventListener('DOMContentLoaded', () =>{
 
 const playGame = () => {
     const grid = document.querySelector('.grid')
+    const gridSquares = document.querySelectorAll('.grid div')
+    const displaySquares = document.querySelectorAll('.mini-grid div')
+    const stashSquares = document.querySelectorAll('.piece-stash div')
+    const takenSquares = document.querySelectorAll('#taken')
     let squares = Array.from(document.querySelectorAll('.grid div'))
     const scoreDisplay = document.querySelector('#score')
     const linesDisplay = document.querySelector('#lines')
     const startBtn = document.querySelector('#start-button')
+    startBtn.innerHTML = 'Start'
     const width = 10
     let gravity = 1000
     let nextRandom = 0
     let timerId 
     let score = 0
     let lines = 0
+
+    function clearGrid(){
+        gridSquares.forEach(square =>{
+            square.classList.remove('block')
+            square.classList.remove('taken')
+            square.style.backgroundImage = 'none'
+        })
+    
+        takenSquares.forEach(square => {
+            square.classList.add('taken')
+        })
+        
+        displaySquares.forEach(square =>{
+            square.classList.remove('block')
+            square.classList.remove('taken')
+            square.style.backgroundImage = 'none'
+        })
+
+        stashSquares.forEach(square =>{
+            square.classList.remove('block')
+            square.classList.remove('taken')
+            square.style.backgroundImage = 'none'
+        })
+    }
+    
+    clearGrid() 
 
     const colorImages= [
         'url(../front-end/images/lightblue.png)',
@@ -89,7 +120,6 @@ const playGame = () => {
         current.forEach(index => {
             squares[currentPosition + index].classList.add('block')
             squares[currentPosition + index].style.backgroundImage = colorImages[random]
-            // squares[currentPosition + index].style.backgroundColor = colors[random]
         })
     }
 
@@ -98,7 +128,6 @@ const playGame = () => {
         current.forEach(index => {
             squares[currentPosition + index].classList.remove('block')
             squares[currentPosition + index].style.backgroundImage = 'none'
-            // squares[currentPosition + index].style.backgroundColor = ''
         })
     }
 
@@ -114,10 +143,12 @@ const playGame = () => {
             moveDown()
         } else if (e.keyDown === 40){
             hardDrop()
+        } else if (e.keyCode === 16){
+            savePiece()
         }
     }
     
-    
+    // move piece down quickly 
     function hardDrop(){
         undraw()
         if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
@@ -128,7 +159,11 @@ const playGame = () => {
             draw()
             hardDrop()
         }
-        
+    }
+
+    function savePiece(){
+        displayStashedPiece()
+        undraw()
     }
     //move down function
     function moveDown() {
@@ -138,24 +173,8 @@ const playGame = () => {
         freeze()
     }
 
-    // freeze function
-    function freeze() {
-        if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
-            current.forEach(index => squares[currentPosition + index].classList.add('taken'))
-            // start a new tetromino falling
-            random = nextRandom
-            nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-            current = theTetrominoes[random][currentRotation]
-            currentPosition = 4
-            draw()
-            displayShape()
-            addScore()
-            gameOver()
-        }
-    }
-
     // move the tetromino left, unless is at the edge or there is a blockage
-    function moveLeft() {
+    function moveLeft(){
         undraw()
         const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
         if(!isAtLeftEdge) currentPosition -=1
@@ -185,6 +204,27 @@ const playGame = () => {
         return current.some(index => (currentPosition + index) % width ===0)
     }
 
+    // start a new tetromino falling 
+    function loadNewPiece() {
+            random = nextRandom
+            nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+            current = theTetrominoes[random][currentRotation]
+            currentPosition = 4
+            draw()
+            displayShape()
+    }
+
+    // freeze function
+    function freeze() {
+        if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            current.forEach(index => squares[currentPosition + index].classList.add('taken'))
+            loadNewPiece()
+            draw()
+            displayShape()
+            addScore()
+            gameOver()
+        }
+    }
 
     function checkRotatedPosition(P){
         P = P || currentPosition
@@ -214,19 +254,18 @@ const playGame = () => {
     }
 
     //show up next tetromino in mini grd display
-    const displaySquares = document.querySelectorAll('.mini-grid div')
-    const displayWidth = 4
-    const displayIndex = 0
+    const miniWidth = 4
+    const miniIndex = 0
 
     //the Tetrominos without rotations
-    const upNextTetrominoes = [
-        [1, displayWidth+1, displayWidth*2+1, displayWidth*3+1], //iTetromino
-        [1, displayWidth+1, displayWidth*2+1, 2], //jTetromino
-        [0, 1, displayWidth+1, displayWidth*2+1], //lTetromino
-        [0, 1, displayWidth, displayWidth+1], //oTetromino
-        [2, displayWidth+1, displayWidth+2, displayWidth*2+1], //sTetromino
-        [1, displayWidth, displayWidth+1, displayWidth+2], //tTetromino
-        [0, displayWidth, displayWidth+1, displayWidth*2+1] //zTetromino
+    const miniTetrominos = [
+        [1, miniWidth+1, miniWidth*2+1, miniWidth*3+1], //iTetromino
+        [1, miniWidth+1, miniWidth*2+1, 2], //jTetromino
+        [0, 1, miniWidth+1, miniWidth*2+1], //lTetromino
+        [0, 1, miniWidth, miniWidth+1], //oTetromino
+        [2, miniWidth+1, miniWidth+2, miniWidth*2+1], //sTetromino
+        [1, miniWidth, miniWidth+1, miniWidth+2], //tTetromino
+        [0, miniWidth, miniWidth+1, miniWidth*2+1] //zTetromino
     ]
 
     //display the shape in the mini-grid
@@ -235,27 +274,43 @@ const playGame = () => {
             square.classList.remove('block')
             square.style.backgroundImage = 'none'
         })
-        upNextTetrominoes[nextRandom].forEach( index => {
-            displaySquares[displayIndex + index].classList.add('block')
-            displaySquares[displayIndex + index].style.backgroundImage = colorImages[nextRandom]
+        miniTetrominos[nextRandom].forEach( index => {
+            displaySquares[miniIndex + index].classList.add('block')
+            displaySquares[miniIndex + index].style.backgroundImage = colorImages[nextRandom]
         })
     }
 
+    //display current tetromino in stash grid
+    function displayStashedPiece(){
+        stashSquares.forEach(square =>{
+            square.classList.remove('block')
+            square.style.backgroundImage = 'none'
+        })
+        miniTetrominos[random].forEach(index => {
+            stashSquares[miniIndex + index].classList.add('block')
+            stashSquares[miniIndex + index].style.backgroundImage = colorImages[random]
+        })
+    }
+
+
     //add functionality to the button
     startBtn.addEventListener('click', () => {
-        if (timerId){
-            clearInterval(timerId)
-            timerId = null
-            startBtn.innerHTML = 'Resume'
-            document.removeEventListener('keydown', control)
-        } else{
+        if (startBtn.innerHTML === 'Start'){
             startBtn.innerHTML = 'Pause'
             document.addEventListener('keydown', control)
-            draw()
+            loadNewPiece()
             timerId = setInterval(moveDown, gravity)
-            nextRandom = Math.floor(Math.random()*theTetrominoes.length)
-            displayShape()
+        } else if (startBtn.innerHTML === 'Pause'){
+            startBtn.innerHTML = 'Resume'
+            clearInterval(timerId)
+            timerId = null
+            document.removeEventListener('keydown', control)
+        } else if (startBtn.innerHTML === 'Resume'){
             startBtn.innerHTML = 'Pause'
+            timerId = setInterval(moveDown, gravity)
+            document.addEventListener('keydown', control)
+        } else if (startBtn.innerHTML === 'New Game'){
+            playGame()
         }
     })
 
@@ -289,6 +344,7 @@ const playGame = () => {
     function gameOver() {
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
         scoreDisplay.innerHTML = 'Game Over'
+        startBtn.innerHTML = 'New Game'
         clearInterval(timerId)
         document.removeEventListener('keydown', control)
         
