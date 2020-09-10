@@ -14,37 +14,15 @@ const playGame = () => {
     const startBtn = document.querySelector('#start-button')
     startBtn.innerHTML = 'Start'
     const width = 10
-    let gravity = 1000
+    let gravity = 500
     let nextRandom = 0
     let timerId 
+    let storedTetrominoA
+    let storedTetrominoB
     let score = 0
     let lines = 0
-
-    function clearGrid(){
-        gridSquares.forEach(square =>{
-            square.classList.remove('block')
-            square.classList.remove('taken')
-            square.style.backgroundImage = 'none'
-        })
+    let tetrominoStatus = "No Tetromino"
     
-        takenSquares.forEach(square => {
-            square.classList.add('taken')
-        })
-        
-        displaySquares.forEach(square =>{
-            square.classList.remove('block')
-            square.classList.remove('taken')
-            square.style.backgroundImage = 'none'
-        })
-
-        stashSquares.forEach(square =>{
-            square.classList.remove('block')
-            square.classList.remove('taken')
-            square.style.backgroundImage = 'none'
-        })
-    }
-    
-    clearGrid() 
 
     const colorImages= [
         'url(../front-end/images/lightblue.png)',
@@ -157,14 +135,23 @@ const playGame = () => {
         } else {
             currentPosition += width
             draw()
-            hardDrop()
         }
     }
 
     function savePiece(){
-        displayStashedPiece()
-        undraw()
+        if(tetrominoStatus === 'No Tetromino'){
+            displayStashedPiece()
+            storedTetrominoA = current
+            undraw()
+            loadNewPiece()
+            draw()
+            displayShape()
+            console.log(storedTetrominoA)
+            tetrominoStatus = 'storedTetrominoA'
+        }
     }
+
+    
     //move down function
     function moveDown() {
         undraw()
@@ -218,10 +205,10 @@ const playGame = () => {
     function freeze() {
         if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
             current.forEach(index => squares[currentPosition + index].classList.add('taken'))
+            addScore()
             loadNewPiece()
             draw()
             displayShape()
-            addScore()
             gameOver()
         }
     }
@@ -310,7 +297,8 @@ const playGame = () => {
             timerId = setInterval(moveDown, gravity)
             document.addEventListener('keydown', control)
         } else if (startBtn.innerHTML === 'New Game'){
-            playGame()
+            clearGrid()
+            startBtn.innerHTML = 'Start'
         }
     })
 
@@ -324,10 +312,10 @@ const playGame = () => {
                 scoreDisplay.innerHTML = score
                 lines += 1
                 linesDisplay.innerHTML = lines
-                // if(gravity > 200){
-                //     gravity -= 100
-                //     timerId = setInterval(moveDown, gravity)
-                // }
+                if(gravity > 300){
+                    gravity -= 50
+                    console.log(gravity)
+                }
                 row.forEach(index => {
                     squares[index].classList.remove('taken')
                     squares[index].classList.remove('block')
@@ -350,5 +338,29 @@ const playGame = () => {
         
         renderUser(score)
         }
+    }
+
+    function clearGrid(){
+        gridSquares.forEach(square =>{
+            square.classList.remove('block')
+            square.classList.remove('taken')
+            square.style.backgroundImage = 'none'
+        })
+    
+        takenSquares.forEach(square => {
+            square.classList.add('taken')
+        })
+        
+        displaySquares.forEach(square =>{
+            square.classList.remove('block')
+            square.classList.remove('taken')
+            square.style.backgroundImage = 'none'
+        })
+
+        stashSquares.forEach(square =>{
+            square.classList.remove('block')
+            square.classList.remove('taken')
+            square.style.backgroundImage = 'none'
+        })
     }
 }
