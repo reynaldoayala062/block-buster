@@ -208,7 +208,7 @@ const playGame = () => {
         current = stashedpiece
         currentRotation = 0
         random = findTetroIndex(stashedpiece)        
-        currentPosition = 4
+        // currentPosition = 4
         draw()
         // displayShape()
     }
@@ -342,7 +342,6 @@ const playGame = () => {
                 linesDisplay.innerHTML = lines
                 if(gravity > 100){
                     gravity -= 50
-                    console.log(gravity)
                 }
                 row.forEach(index => {
                     squares[index].classList.remove('taken')
