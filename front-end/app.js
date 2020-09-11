@@ -13,6 +13,7 @@ const playGame = () => {
     const linesDisplay = document.querySelector('#lines')
     const startBtn = document.querySelector('#start-button')
     const music = document.querySelector("body > audio")
+    music.loop = true
     music.volume = 0.05;
     startBtn.innerHTML = 'Start'
     const width = 10

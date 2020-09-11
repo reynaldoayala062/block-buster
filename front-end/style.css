@@ -8,7 +8,7 @@ html {
     background: linear-gradient(#141e30, #243b55);
   }
   
-  .login-box {
+  .login-box, .pause-screen {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -113,15 +113,35 @@ html {
     text-align:center;
   }
   
-  h3, p, li {
+  h3, h4, li {
     color: #03e9f4;
     font-size: 12px;
     text-decoration: none;
     text-transform: uppercase;
     overflow: hidden;
     transition: .5s;
-    margin-top: 40px;
+    margin-top: 5px;
     letter-spacing: 4px;
+  }
+
+  li, h4 {
+    margin-top: 40px;
+  }
+
+  p, h5 {
+    color: #03e9f4;
+    font-size: 12px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 0px;
+    letter-spacing: 4px;
+    margin-left: 62px;
+  }
+
+  h5 {
+    font-size: 8px;
   }
   
   .title {
@@ -167,13 +187,17 @@ html {
   
   .score {
     bottom: 50%;
-    align-self: flex-end;  
+    align-self: flex-end;
+  }
+
+  .instructions {
+    margin-left: -10px;
   }
   
   .pause {
     bottom: 0%;
     align-self: flex-end;
-    margin-left: -80px;
+    margin-left: -140px;
     
   }
   
