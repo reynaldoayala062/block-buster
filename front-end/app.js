@@ -16,7 +16,7 @@ const playGame = () => {
     music.volume = 0.05;
     startBtn.innerHTML = 'Start'
     const width = 10
-    let gravity = 500
+    let gravity = 1000
     let nextRandom = 0
     let timerId 
     let storedTetrominoA
@@ -103,7 +103,6 @@ const playGame = () => {
         })
     }
 
-    
     function undraw() {
         current.forEach(index => {
             squares[currentPosition + index].classList.remove('block')
@@ -141,15 +140,17 @@ const playGame = () => {
     }
 
     function savePiece(){
-        if(tetrominoStatus === 'No Tetromino'){
-            displayStashedPiece()
+        if(!storedTetrominoA) {
             storedTetrominoA = current
+            displayStashedPiece()
             undraw()
             loadNewPiece()
-            draw()
-            displayShape()
-            console.log(storedTetrominoA)
-            tetrominoStatus = 'storedTetrominoA'
+        } else {
+            let newCurrentPiece = storedTetrominoA
+            storedTetrominoA = current
+            displayStashedPiece()
+            undraw()
+            loadStashedPiece(newCurrentPiece)
         }
     }
 
@@ -203,6 +204,15 @@ const playGame = () => {
             displayShape()
     }
 
+    const loadStashedPiece = (stashedpiece) => {
+        current = stashedpiece
+        currentRotation = 0
+        random = findTetroIndex(stashedpiece)        
+        currentPosition = 4
+        draw()
+        // displayShape()
+    }
+
     // freeze function
     function freeze() {
         if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
@@ -229,7 +239,19 @@ const playGame = () => {
             }
         }
     }
-
+    
+    function findTetroIndex(inputTetro) {
+        var theIndex = null;
+        theTetrominoes.forEach((tetro, index) => {
+            tetro.forEach(tetroRotation => {
+                if(JSON.stringify(tetroRotation) === JSON.stringify(inputTetro)) {
+                    theIndex = index;
+                }
+            })
+        });
+        return theIndex;
+    }
+    
     //rotate the tetromino
     function rotate() {
         undraw()
@@ -237,6 +259,7 @@ const playGame = () => {
         if(currentRotation === current.length){
             currentRotation = 0
         }
+        // var currentIndex = findTetroIndex(current)
         current = theTetrominoes[random][currentRotation]
         checkRotatedPosition()
         draw()
@@ -317,7 +340,7 @@ const playGame = () => {
                 scoreDisplay.innerHTML = score
                 lines += 1
                 linesDisplay.innerHTML = lines
-                if(gravity > 300){
+                if(gravity > 100){
                     gravity -= 50
                     console.log(gravity)
                 }
