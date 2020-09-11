@@ -309,6 +309,8 @@ const playGame = () => {
     //add functionality to the button
     startBtn.addEventListener('click', () => {
         if (startBtn.innerHTML === 'Start'){
+            score = 0
+            scoreDisplay.innerHTML = 0
             startBtn.innerHTML = 'Pause'
             music.play()
             document.addEventListener('keydown', control)

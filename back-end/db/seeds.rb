@@ -7,5 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create(name: "rey")
-
+User.create(name: "Ed")
+User.create(name: "John")
 HighScore.create(score: 10, user_id: 1)
+HighScore.create(score: 30, user_id: 2)
+HighScore.create(score: 50, user_id: 3)
